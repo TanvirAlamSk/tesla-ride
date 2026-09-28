@@ -619,6 +619,27 @@ Sensitive environment variables should never be committed to the repository.
 
 ---
 
+## Live Demo
+
+| Resource             | Link                                       |
+| -------------------- | ------------------------------------------ |
+| 🌐 Live              | https://tesla-ride-frontend.onrender.com/  |
+
+### Demo Credentials
+
+**Driver**
+
+* Email: `jashim@example.com`
+* Password: `password123`
+
+**Passenger**
+
+* Email: `nusrat@example.com`
+* Password: `password123`
+
+> The live demo uses predefined Dhaka zones and simulated route distances. No external map service is required.
+
+
 ## License
 
 This project is developed as a ride-pooling MVP and can be extended for educational or production use with additional security, scalability and operational improvements.
