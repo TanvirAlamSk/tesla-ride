@@ -156,6 +156,8 @@ tesla-ride-pooling/
 
 ## Database Design
 
+
+
 Main collections:
 
 ```text
@@ -229,6 +231,91 @@ IN_PROGRESS
 COMPLETED
 CANCELLED
 ```
+
+---
+
+## Collections
+
+### User (`users`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `name` | String | Full name of the user |
+| `email` | String | Email address (unique) |
+| `password` | String | Hashed password |
+| `role` | String | `passenger` or `driver` |
+| `phone` | String | Phone number |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
+
+### Vehicle (`vehicles`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `driverId` | ObjectId (ref: User) | Driver who owns the vehicle |
+| `model` | String | Vehicle model |
+| `vehicleNumber` | String | Vehicle registration number |
+| `capacity` | Number | Total number of seats |
+| `currentLocation` | Object | Current position `{ lat: Number, lng: Number }` |
+| `status` | String | `available` or `in_use` |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
+
+### RideRequest (`rideRequests`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `passengerId` | ObjectId (ref: User) | Passenger who created the request |
+| `pickupLocation` | String | Pickup location |
+| `destination` | String | Destination |
+| `seatsRequested` | Number | Number of seats requested |
+| `fare` | Number | Calculated fare |
+| `status` | String | `waiting`, `matched`, `cancelled`, etc. |
+| `poolId` | ObjectId (ref: Pool) | Matched pool (empty until matched) |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
+
+### Pool (`pools`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `vehicleId` | ObjectId (ref: Vehicle) | Vehicle assigned to the pool |
+| `driverId` | ObjectId (ref: User) | Driver of the pool |
+| `pickupLocation` | String | Starting location of the pool |
+| `destination` | String | Destination of the pool |
+| `totalSeats` | Number | Total seats available |
+| `occupiedSeats` | Number | Seats already booked |
+| `status` | String | `open`, `in_progress`, `completed`, etc. |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
+
+### PoolMember (`poolMembers`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `poolId` | ObjectId (ref: Pool) | Pool the passenger has joined |
+| `rideRequestId` | ObjectId (ref: RideRequest) | Associated ride request |
+| `userId` | ObjectId (ref: User) | Passenger |
+| `seats` | Number | Number of seats booked |
+| `joinedAt` | Date | Time the passenger joined the pool |
+| `status` | String | `active` or `cancelled` |
+
+### RideStatusHistory (`rideStatusHistory`)
+
+| Field | Type | Description |
+|---|---|---|
+| `_id` | ObjectId | Unique identifier |
+| `poolId` | ObjectId (ref: Pool) | Associated pool |
+| `rideRequestId` | ObjectId (ref: RideRequest) | Associated ride request |
+| `status` | String | `requested`, `matched`, `in_progress`, `completed`, `cancelled` |
+| `timestamp` | Date | Time of the status change |
+| `updatedBy` | ObjectId (ref: User) | User who made the update (optional) |
+| `notes` | String | Additional remarks (optional) |
 
 ---
 
