@@ -69,7 +69,7 @@ const DriverDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen ">
       <nav className="flex items-center justify-between bg-black px-6 py-4 text-white">
         <h1 className="text-xl font-bold">
           Tesla Ride Pooling
